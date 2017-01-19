@@ -28,13 +28,13 @@ def stdout_to_file( file ):
         sys.stdout = sys.__stdout__
 
 
-def mtr( cmd="mtr --report-wide -c 20", test_ip="127.0.0.1"  ):
+def mtr( cmd="mtr --report --report-wide -c 20", test_ip="127.0.0.1"  ):
     """mtr given target"""
     logfile = test_ip + "_" + datetime.datetime.utcnow().strftime("%Y-%m-%d") + ".log"
 
     print("running mtr vs %s. Log goes to %s" % ( cmd, logfile) )
     while True:
-            mtr_proc = subprocess.Popen( cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE )
+            mtr_proc = subprocess.Popen( cmd + " " + test_ip, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE )
             mtr_stdout, mtr_stderr = mtr_proc.communicate()
 
             with stdout_to_file( logfile ):
@@ -46,4 +46,4 @@ def mtr( cmd="mtr --report-wide -c 20", test_ip="127.0.0.1"  ):
 # 109.226.101.150 //
 if __name__ == '__main__':
     print 'Ctrl-C to stop'
-    mtr(test_ip='127.0.0.1')
+    mtr(test_ip='109.226.101.150')
